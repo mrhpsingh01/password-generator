@@ -1,7 +1,6 @@
 // import "./main.scss";
 import { useState, useRef, useEffect } from "react";
 import { FaClipboard } from "react-icons/fa";
-import { COPY_SUCCESS, ALERT } from "./Messages.jsx";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -21,10 +20,13 @@ function App() {
   const [numbers, setNumbers] = useState(true);
   const [symbols, setSymbols] = useState(true);
   const copyBtn = useRef();
+  const Alert = "You must select at least one option";
 
-  const handlePasswordGenerator = () => {
+  const handlePasswordGenerator = (e) => {
     if (!upperCase && !lowerCase && !numbers && !symbols) {
-      alert("Select at least one Category!!!");
+      notify(Alert, true);
+      // alert("You must select at least one option");
+      return;
     }
 
     let characterList = "";
@@ -86,17 +88,17 @@ function App() {
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
         draggable: true,
         progress: undefined,
       });
     } else {
-      toast(message, {
+      toast.info(message, {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
-        pauseOnHover: true,
+        pauseOnHover: false,
         draggable: true,
         progress: undefined,
       });
@@ -106,15 +108,15 @@ function App() {
   const handleCopyPassword = (e) => {
     copyToClipboard();
 
-    notify(COPY_SUCCESS);
+    notify("Password successfully copied to clipboard");
   };
 
   return (
-    <div className="bg-blue-300  m-0 pt-[200px] h-screen w-screen">
-      <div className="rounded-[3px] bg-blue-800 hover:bg-blue-900 shadow-[0px_2px_10px_rgba(255,255,255,0.2)] p-[20px] w-[350px] mx-auto ">
-        <h2 className="text-center text-[#fff] mb-[20px]">
+    <div className="bg-blue-300  m-0 pt-[200px] h-full w-full min-h-screen">
+      <div className="rounded-[3px] bg-blue-800 hover:bg-blue-900 shadow-[0px_2px_10px_rgba(255,255,255,0.2)] p-[20px] max-w-[350px] min-w-fit mx-auto ">
+        <h1 className="text-center text-3xl text-[#fff] mb-[20px]">
           Password Generator
-        </h2>
+        </h1>
         <div className="relative bg-[rgba(0,0,0,0.4)] py-[13px] px-[10px] text-white h-[46px] mb-[15px]">
           {password}
           <button
